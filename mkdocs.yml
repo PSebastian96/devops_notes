@@ -1,0 +1,132 @@
+site_name: DevOps Notes
+
+theme:
+  name: material
+
+  features:
+    # Navigation
+    - navigation.sections
+    - navigation.top
+
+    # Search
+    - search.suggest
+    - search.highlight
+
+    # Code blocks
+    - content.code.copy
+
+  # Site appearance
+  palette:
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+plugins:
+  - search
+
+nav:
+  - Menu: index.md
+
+  - UV Manager: 
+    - Overview & Reference: uv_manager/index.md
+    - Installation: 
+        - Installation: uv_manager/install.md
+        - Updating: uv_manager/update.md
+    - Project setup: uv_manager/project-setup.md
+    - UV and DevOps:
+        - UV and GIT: uv_manager/uv-git.md
+        - UV and Docker: uv_manager/uv-docker.md
+        - UV and Makefile: uv_manager/uv-makefile.md
+        - Workflow: uv_manager/workflow.md
+    - Python versioning: uv_manager/python-versioning.md
+  
+  - Git:
+    - Overview: git/index.md
+    - Getting Started:
+        - Installation: git/installation.md
+        - Github Authentication: git/git-auth.md
+        - Configuration: git/configuration.md
+        - Common Commands: git/commands.md
+    - VSCode: git/vscode.md
+    - Working with Changes:
+        - Staging & Commits: git/staging-commits.md
+        - Diffs: git/diffs.md
+        - Undoing Changes: git/undoing-changes.md
+        - Stash: git/stash.md
+    - Branching & Merging:
+        - Branching: git/branching.md
+        - Merging: git/merging.md
+        - Workflows: git/workflows.md
+    - Remote Repositories:
+        - Remotes: git/remotes.md
+        - Tags: git/tags.md
+    - History: git/history.md
+
+  - Docker:
+    - Overview: docker/index.md
+    - Getting Started:
+        - Installation: docker/installation.md
+        - Concepts: docker/concepts.md
+        - Common Commands: docker/commands.md
+    - Images:
+        - Dockerfiles: docker/dockerfiles.md
+        - Images: docker/images.md
+    - Containers: docker/containers.md
+    - Storage: docker/volumes.md
+    - Networking: docker/networking.md
+    - Docker Compose: docker/compose.md
+    - Registries: docker/registries.md
+    - Security: docker/security.md
+    - Troubleshooting: docker/troubleshooting.md
+
+markdown_extensions:
+  # Admonitions
+  - admonition
+
+  # Markdown inside HTML - REQUIRED for Material grids/cards
+  - md_in_html
+  
+  # Content tabs
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  # Code blocks and Mermaid diagrams
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  # Better syntax highlighting
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  
+  # Icons and emojis
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  
+  # Inline code
+  - pymdownx.inlinehilite
+
+  # Attribute lists
+  - attr_list
+
+  # Tables
+  - tables
