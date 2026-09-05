@@ -41,6 +41,11 @@ plugins:
 nav:
   - Menu: index.md
 
+  - Workspace:
+    - Linux: workspace/linux.md
+    - VSCode: workspace/vscode.md
+    - Makefile: workspace/makefile.md
+
   - UV Manager: 
     - Overview & Reference: uv_manager/index.md
     - Installation: 
