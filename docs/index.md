@@ -10,7 +10,7 @@ A practical reference for DevOps tools, technologies, and workflows.
 
   Linux, shell commands, VS Code, terminal workflows, system administration, and developer workspace references.
 
-  [:octicons-arrow-right-24: Workspace notes](workspace/index.md)
+  [:octicons-arrow-right-24: Workspace notes](workspace/linux.md)
 
 
 -   :fontawesome-brands-python:{ .lg .middle } **uv Project Manager**
