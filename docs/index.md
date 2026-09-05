@@ -4,13 +4,13 @@ A practical reference for DevOps tools, technologies, and workflows.
 
 <div class="grid cards" markdown>
 
-- :fontawesome-brands-linux:{ .lg .middle } **Workspace**
+-   :fontawesome-brands-linux:{ .lg .middle } **Workspace**
 
-  ---
+    ---
 
-  Linux, shell commands, VS Code, terminal workflows, system administration, and developer workspace references.
+    Linux, shell commands, VS Code, terminal workflows, system administration, and developer workspace references.
 
-  [:octicons-arrow-right-24: Workspace notes](workspace/linux.md)
+    [:octicons-arrow-right-24: Workspace notes](workspace/linux.md)
 
 
 -   :fontawesome-brands-python:{ .lg .middle } **uv Project Manager**
