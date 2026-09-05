@@ -34,7 +34,7 @@ A practical reference for DevOps tools, technologies, and workflows.
 
     GitLab repositories, CI/CD pipelines, runners, variables, and deployments.
 
-    [:octicons-arrow-right-24: GitLab notes](gitlab/index.md)
+    [:octicons-arrow-right-24: GitLab notes](/)
 
 -    :material-hammer:{ .lg .middle } **Makefile**
 
@@ -42,7 +42,7 @@ A practical reference for DevOps tools, technologies, and workflows.
 
     Task automation, build commands, targets, dependencies, variables, and repeatable development workflows.
 
-    [:octicons-arrow-right-24: Makefile notes](makefile/)
+    [:octicons-arrow-right-24: Makefile notes](/)
 
 </div>
 
