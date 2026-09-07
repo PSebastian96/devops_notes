@@ -53,7 +53,7 @@ Git can report:
 git commit -m "Add configuration"
 ```
 
-ood commit messages briefly describe **what the commit changes**.
+Good commit messages briefly describe **what the commit changes**.
 
 Examples:
 

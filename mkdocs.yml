@@ -41,6 +41,25 @@ plugins:
 nav:
   - Menu: index.md
 
+  - Django:
+    - Overview: django/index.md
+    - Workflow: django/workflow.md
+    - Packages: django/packages.md
+    - Config: django/settings.md
+    - Models: django/models.md
+    - Forms: django/forms.md
+    - Templates: django/templates.md
+    - Views: django/views.md
+    - Urls: django/urls.md
+    - Admin: django/admin.md
+    - Celery:  django/celery.md
+    - Celery beat: django/celery_beat.md
+    - Redis: django/redis.md
+    - Postgres: django/postgres.md
+    - DRF: django/drf.md
+    - Serializers: django/serializers.md
+    - Deployment: django/deployment.md
+
   - Workspace:
     - Linux: workspace/linux.md
     - VSCode: workspace/vscode.md
@@ -97,6 +116,13 @@ nav:
     - Registries: docker/registries.md
     - Security: docker/security.md
     - Troubleshooting: docker/troubleshooting.md
+  
+  - Gitlab:
+    - Overview: gitlab/index.md
+    - Workflow: gitlab/workflow.md
+    - Yaml file: gitlab/yaml.md
+    - +UV: gitlab/gitlab_uv.md
+    - +Docker: gitlab/gitlab_docker.md
 
 markdown_extensions:
   # Admonitions

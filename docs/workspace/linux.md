@@ -1,6 +1,6 @@
 # Linux Commands and Terminal Shortcut
 
-### 1. Terminal:
+### 1. Terminal
 | Shortcut           | Action                                    |
 | ------------------ | ----------------------------------------- |
 | `Ctrl + Shift + T` | Open new terminal tab                     |
