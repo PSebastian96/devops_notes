@@ -121,8 +121,18 @@ nav:
     - Overview: gitlab/index.md
     - Workflow: gitlab/workflow.md
     - Yaml file: gitlab/yaml.md
-    - +UV: gitlab/gitlab_uv.md
-    - +Docker: gitlab/gitlab_docker.md
+    - Gitlab-UV: gitlab/gitlab_uv.md
+    - Gitlab-Docker: gitlab/gitlab_docker.md
+
+  - SQL:
+    - Overview: sql/index.md
+    - ERD: 
+      - Concept: sql/erd.md
+      - Relationships: sql/relations.md
+      - Index,Constraint & Transactions: sql/ind_con_tra.md
+    - SQL:
+      - Syntax: sql/syntax.md
+      - Functions: sql/functions.md
 
 markdown_extensions:
   # Admonitions
