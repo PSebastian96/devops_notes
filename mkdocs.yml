@@ -41,6 +41,19 @@ plugins:
 nav:
   - Menu: index.md
 
+  - Python:
+    - Basics:
+      - Syntax: python/index.md
+      - Datatypes: python/datatypes.md
+      - I/O & OS: python/io_os.md
+      - Async: python/async.md
+    - Conditionals: python/conditionals.md
+    - Iterations: python/iterations.md
+    - Cases: python/cases.md
+    - Exceptions: python/exceptions.md
+    - Libraries: python/libraries.md
+
+
   - Django:
     - Overview: django/index.md
     - Workflow: django/workflow.md
@@ -140,6 +153,7 @@ markdown_extensions:
 
   # Markdown inside HTML - REQUIRED for Material grids/cards
   - md_in_html
+  - pymdownx.details
   
   # Content tabs
   - pymdownx.tabbed:

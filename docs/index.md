@@ -4,6 +4,15 @@ A practical reference for DevOps tools, technologies, and workflows.
 
 <div class="grid cards" markdown>
 
+-   :fontawesome-brands-python:{ .lg .middle } **Python Basics**
+
+    ---
+
+    Python syntax, reserved keywords, datatypes, variables, conditionals, iteration, cases, exceptions, shortands, libraries.
+    
+
+    [:octicons-arrow-right-24: Python notes](python/index.md)
+
 -   :simple-django:{ .lg .middle } **Django Framework**
 
     ---
@@ -22,7 +31,7 @@ A practical reference for DevOps tools, technologies, and workflows.
     [:octicons-arrow-right-24: Workspace notes](workspace/linux.md)
 
 
--   :fontawesome-brands-python:{ .lg .middle } **uv Project Manager**
+-   :material-package-variant:{ .lg .middle } **uv Project Manager**
 
     ---
 
