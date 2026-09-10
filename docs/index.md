@@ -54,6 +54,15 @@ A practical reference for DevOps tools, technologies, and workflows.
 
     [:octicons-arrow-right-24: GitLab notes](gitlab/index.md)
 
+-   :material-database:{ .lg .middle } **SQL & Database**
+
+    ---
+
+    Database notes, model relationships, syntax.
+    
+
+    [:octicons-arrow-right-24: SQL notes](sql/index.md)
+
 </div>
 
 ---
