@@ -57,6 +57,7 @@ nav:
   - Django:
     - Overview: django/index.md
     - Workflow: django/workflow.md
+    - Conventions: django/convention.md
     - Packages: django/packages.md
     - Config: django/settings.md
     - Models: django/models.md

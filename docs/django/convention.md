@@ -33,6 +33,8 @@ products/
 └── urls.py
 ```
 
+---
+
 ## Models
 
 - Model names are generally singular because they represent one object.
@@ -66,6 +68,8 @@ class Order(models.Model):
     shipping_address = models.ForeignKey(Address, ...)
 ```
 
+---
+
 ## Object Manager
 
 The conventional default is:`.objects`.
@@ -87,6 +91,8 @@ class Product(models.Model):
 
     Custom managers are given names describing what they return.
     Don't unnecessarily create managers when a selector is more appropriate.
+
+---
 
 ## Selectors
 
@@ -114,6 +120,8 @@ get_product(...)
 get_products(...)
 ```
 
+---
+
 ## Filters
 
 The class name ends with `Filter`.
@@ -132,6 +140,8 @@ class OrderFilter(django_filters.FilterSet):
 # same as queryset = Product.objects.filter(...)
 qs = Product.objects.filter(...)
 ```
+
+---
 
 ## Filter vs Selector
 
@@ -153,6 +163,8 @@ Filter => user/client decides how to narrow the query (filter translates the use
 | Search/filter UI    | Not specifically | Yes                         |
 
 
+---
+
 ## Services
 
 Live in `services.py` layer for operations that change state, names usually describe the action.
@@ -164,6 +176,8 @@ activate_subscription(...)
 send_invoice(...)
 update_product(...)
 ```
+
+---
 
 ## Forms
 
@@ -179,6 +193,53 @@ class ProductCreateForm(forms.ModelForm):
 class CheckoutForm(forms.Form):
     ...
 ```
+
+> **Use `forms.Form` when the form represents an action/query/input.**
+>
+> **Use `forms.ModelForm` when the form represents creating or editing a model instance.**
+
+
+- Common decision:
+
+| Question | `forms.Form` | `forms.ModelForm` |
+|---|:---:|:---:|
+| Is the form directly based on a Django model? | ❌ | ✅ |
+| Does the form create a model instance? | ❌ | ✅ |
+| Does the form update a model instance? | ❌ | ✅ |
+| Does `form.save()` make sense? | ❌ | ✅ |
+| Is it for searching/filtering? | ✅ | ❌ |
+| Is it for login? | ✅ | ❌ |
+| Is it for registration? | Usually ✅ | Sometimes |
+| Is it for contact/feedback? | ✅ | ❌ |
+| Is it for changing a password? | ✅ | ❌ |
+| Is it for a multi-step/query operation? | ✅ | ❌ |
+| Is it for creating a `Product`? | ❌ | ✅ |
+| Is it for editing a `Product`? | ❌ | ✅ |
+| Is it for creating an `Order`? | Can be ❌ | Usually ✅ |
+| Does it need model field metadata automatically? | ❌ | ✅ |
+| Does it automatically validate model fields? | ❌ | ✅ |
+| Does it automatically handle model relationships? | ❌ | ✅ |
+| Is persistence the purpose of the form? | ❌ | ✅ |
+
+- CRUD based decision:
+
+| Operation              | Typical choice                      |
+| ---------------------- | ----------------------------------- |
+| Create `Product`       | `ModelForm`                         |
+| Update `Product`       | `ModelForm`                         |
+| Delete `Product`       | Usually no form / confirmation form |
+| View `Product`         | No form                             |
+| Search `Product`       | `Form`                              |
+| Filter `Product`       | `Form` or `django-filter`           |
+| Sort `Product`         | `Form` or query parameter           |
+| Login                  | `Form`                              |
+| Register user          | `ModelForm` or specialized `Form`   |
+| Change password        | `Form`                              |
+| Contact us             | `Form`                              |
+| Generate report        | `Form`                              |
+| Upload/edit model data | `ModelForm`                         |
+
+---
 
 ## Views
 
@@ -200,6 +261,8 @@ class ProductUpdateView():
 class ProductDeleteView():
     ...
 ```
+
+---
 
 ## Urls
 
@@ -294,6 +357,8 @@ products/
         └── product_confirm_delete.html
 ```
 
+---
+
 ## Apps
 
 App names are generally lowercase and singular/plural depending on what the app represents.
@@ -304,3 +369,5 @@ orders/
 accounts/
 billing/
 ```
+
+---

@@ -92,8 +92,6 @@
 
     - Common examples: payment processing, email sending, report generation, domain rules enforcement.
 
-## Project File Structure
-
 ## How Django Handles a Request
 
 1. Browser sends HTTP request
