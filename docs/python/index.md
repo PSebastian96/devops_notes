@@ -6,6 +6,8 @@
 - `'''  '''` is used for multi line commments.
 - `""" """` is also used for multi line comments.
 
+---
+
 ## Naming convention
 
 camelCase : myVar
@@ -17,6 +19,8 @@ UPPER_CASE : MY_VAR
 under_score : my_var (Variable or function names)
 
 PasqualCase : MyVar (Class names)
+
+---
 
 ## 📋 Summary Table of Reserved Keywords
 
