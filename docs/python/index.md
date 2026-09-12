@@ -9,9 +9,13 @@
 ## Naming convention
 
 camelCase : myVar
+
 snake-case : my-var
-under_score : my_var (Variable or function names)
+
 UPPER_CASE : MY_VAR
+
+under_score : my_var (Variable or function names)
+
 PasqualCase : MyVar (Class names)
 
 ## 📋 Summary Table of Reserved Keywords
@@ -30,13 +34,19 @@ PasqualCase : MyVar (Class names)
 | **Context Management** | `with`                                                                       |
 | **Structural Matching**| `match`, `case`                                                              |
 
+---
+
 ## Basic Operations
 
 ### Flow of Execution & Operations
 
-Statements are executed from LEFT to RIGHT.
-Flow of execution of functions start at TOP to BOTTOM.
-Sometimes a function calls another function, therefore sometimes it makes more sense to follow the flow of execution of function(s).
+- Statements are executed from LEFT to RIGHT.
+
+- Flow of execution of functions start at TOP to BOTTOM.
+
+- Sometimes a function calls another function, therefore sometimes it makes more sense to follow the flow of execution of function(s).
+
+---
 
 ### PEMDAS
 
@@ -47,25 +57,36 @@ Order of Operations:
 3. Multiplication (x) & (/) Division have the third precedence.
 4. Additon (+) & (-) Subtraction have the last precedence.
 
+---
+
 ### Math Operators
 
-Operators	Operation	Example
-|---|---|---|
-** | Exponent | 2**3 = 8 % | Modulus/Remainder | 22 % 8 = 6 // | Floor Division | 22 // 8 = 2 / | Division | 22 / 8 = 2.75 * | Multiplication | 3 * 3 = 9 - | Subtraction | 5 - 2 = 3 + | Addition | 2 + 2 = 4 +=| Increment | 2 += 2 = 4 -=| Decrement | 4 -= 2 = 2
+|Operators	|Operation | Example |
+|-----------|----------|---------|
+|`**`| Exponent | 2**3 = 8       |
+|`%` | Modulus/Remainder | 22 % 8 = 6 |  
+|`//`| Floor Division | 22 // 8 = 2 |
+|`/` | Division | 22 / 8 = 2.75 |
+|`*` | Multiplication | 3 * 3 = 9| 
+|`-` | Subtraction | 5 - 2 = 3 |
+|`+` | Addition | 2 + 2 = 4 |
+|`+=`| Increment | 2 += 2 = 4 |
+|`-=`| Decrement | 4 -= 2 = 2 |
+
+---
 
 ### Comparison Operators
 
-`<` Less Than
+| Sign | Meaning | Example |
+|------|---------|---------|
+|`<` | Less Than| x < y |
+|`>` | More Than| x > y |
+|`<=`|  Less Than or Equal To| x <= y |
+|`>=`|  More Than or Equal To| x >= y |
+|`==`|  Equal To| x == y |
+|`!=`|  Not Equal To| x != y|
 
-`>` More Than
-
-`<=` Less Than or Equal To
-
-`>=` More Than or Equal To
-
-`==` Equal To
-
-`!=` Not Equal To
+---
 
 ### Logical Operators
 
@@ -91,10 +112,30 @@ False	True	TRUE
 True	False	TRUE
 True	True	TRUE
 
-- Logical Operator Priority:
+Logical Operator Priority:
 
 1. NOT
 2. AND
 3. OR
 
+---
+
 IS vs ==
+
+---
+
+## Syntax Examples
+
+```python
+# variables
+
+# functions
+
+# classes
+
+# list
+
+# tuple
+
+# dictionary
+```
