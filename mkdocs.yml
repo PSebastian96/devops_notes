@@ -63,11 +63,13 @@ nav:
     - Environment: django/environ.md
     - Models: django/models.md
     - Forms: django/forms.md
+    - Filters: django/filters.md
+    - Services: django/services.md
     - Templates: django/templates.md
     - Views: django/views.md
     - Urls: django/urls.md
     - Admin: django/admin.md
-    - Celery:  django/celery.md
+    - Celery/Tasks:  django/celery.md
     - Celery beat: django/celery_beat.md
     - Redis: django/redis.md
     - Postgres: django/postgres.md
