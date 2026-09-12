@@ -46,6 +46,7 @@ nav:
       - Syntax: python/index.md
       - Datatypes: python/datatypes.md
       - I/O & OS: python/io_os.md
+      - Dunder: python/dunder.md
       - Async: python/async.md
     - Conditionals: python/conditionals.md
     - Iterations: python/iterations.md
