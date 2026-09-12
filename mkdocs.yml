@@ -60,6 +60,7 @@ nav:
     - Conventions: django/convention.md
     - Packages: django/packages.md
     - Config: django/settings.md
+    - Environment: django/environ.md
     - Models: django/models.md
     - Forms: django/forms.md
     - Templates: django/templates.md

@@ -169,17 +169,113 @@ Filter => user/client decides how to narrow the query (filter translates the use
 
 Live in `services.py` layer for operations that change state, names usually describe the action.
 
+Use a service when an operation represents a meaningful business action that should be reusable outside a specific view, form, or task.
+
 ```python
-create_order(...)
-cancel_order(...)
-activate_subscription(...)
-send_invoice(...)
-update_product(...)
+def create_order(user, cart):
+    ...
+
+def cancel_order(order, reason):
+    ...
+
+def refund_order(order, amount):
+    ...
+
+def activate_subscription(subscription):
+    ...
+
+def assign_product_to_category(product, category):
+    ...
 ```
+
+> A service should generally answer:
+> "What business action are we performing?"
+> rather than:
+> "What database operation are we performing?"
+
+For example:
+
+```python
+# Good
+cancel_order(order)
+
+# Less useful as a service
+set_order_status(order, "cancelled")
+```
+
+The first expresses a business operation. The second mostly exposes an implementation detail.
+
+!!! note "Common characteristics"
+
+    A service is a good fit when the operation:
+
+    - Changes application state
+    - Coordinates multiple models
+    - Contains business rules
+    - Requires a transaction
+    - May be called from multiple entry points
+    - Should be testable independently of HTTP/views
+    - Represents a meaningful domain/business action
 
 ---
 
 ## Tasks
+
+Tasks live in tasks.py and represent work that should be executed asynchronously, outside the normal request/response cycle, or independently from the operation that triggered it.
+
+Names should describe the work being performed.
+
+```python
+send_invoice_email(...)
+
+process_payment(...)
+
+generate_monthly_report(...)
+
+sync_products(...)
+
+send_subscription_reminders(...)
+```
+
+Use a task when work should happen asynchronously, in the background, or independently from the request that triggered it.
+
+Tasks are particularly useful for operations that:
+
+- Take a long time
+- Call external APIs
+- Send emails or notifications
+- Generate files/reports
+- Process large amounts of data
+- Need retries
+- Can safely happen after the HTTP response
+- Should not make the user wait
+
+
+For example:
+
+```python
+@shared_task
+def send_invoice_email(invoice_id):
+    invoice = Invoice.objects.get(pk=invoice_id)
+    ...
+```
+
+- When should something be a Task?
+
+| Question                                 |  Task?  |
+| ---------------------------------------- | :-----: |
+| Does it need to happen asynchronously?   |    ✅    |
+| Could it make an HTTP request slow?      |    ✅    |
+| Does it send an email?                   | Often ✅ |
+| Does it call an external API?            | Often ✅ |
+| Does it generate a large report?         |    ✅    |
+| Does it process many records?            | Often ✅ |
+| Does it need retries?                    |    ✅    |
+| Does it need scheduled execution?        |    ✅    |
+| Is it simple synchronous business logic? |    ❌    |
+| Is it model validation?                  |    ❌    |
+| Is it form validation?                   |    ❌    |
+| Is it primarily an HTTP operation?       |    ❌    |
 
 ---
 

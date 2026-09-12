@@ -473,9 +473,8 @@ DATABASES = {
     }
 }
 ```
-## Env variables
 
-
+---
 
 ## Tips
 
