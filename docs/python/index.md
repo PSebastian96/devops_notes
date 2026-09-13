@@ -96,25 +96,30 @@ Order of Operations:
 
 - Logical NOT Operator: Returns TRUE if the operand is false and vice versa.
 
-x	NOT x
-False	True
-True	False
+| `x`     | `NOT x` |
+| ------- | ------- |
+| `False` | `True`  |
+| `True`  | `False` |
+
 
 - Logical AND Operator: Returns a value/executes statement if BOTH conditions are TRUE.
 
-x	y	x AND Y
-False	False	FALSE
-False	False	FALSE
-True	False	FALSE
-True	True	TRUE
+| `x`     | `y`     | `x AND y` |
+| ------- | ------- | --------- |
+| `False` | `False` | `False`   |
+| `False` | `True`  | `False`   |
+| `True`  | `False` | `False`   |
+| `True`  | `True`  | `True`    |
+
 
 - Logical OR Operator: Returns a value/executes statement if ONE OR BOTH condition(s) is/are TRUE.
 
-x	y	x OR Y
-False	False	FALSE
-False	True	TRUE
-True	False	TRUE
-True	True	TRUE
+| `x`     | `y`     | `x OR y` |
+| ------- | ------- | -------- |
+| `False` | `False` | `False`  |
+| `False` | `True`  | `True`   |
+| `True`  | `False` | `True`   |
+| `True`  | `True`  | `True`   |
 
 Logical Operator Priority:
 
@@ -124,7 +129,23 @@ Logical Operator Priority:
 
 ---
 
-IS vs ==
+## `is` vs `==`
+
+> `==` checks whether two values are equal.
+> `is` checks whether two variables refer to the exact same object in memory.
+
+| Operator | Checks          | Example  |
+| -------- | --------------- | -------- |
+| `==`     | Value equality  | `a == b` |
+| `is`     | Object identity | `a is b` |
+
+```python
+a = [1, 2, 3]
+b = [1, 2, 3]
+
+a == b   # True  → same values
+a is b   # False → different objects
+```
 
 ---
 
@@ -132,14 +153,72 @@ IS vs ==
 
 ```python
 # variables
+name = "Alice"
+age = 30
+is_active = True
+
+print(name)
+# Alice
+print(age)
+# 30
+print(is_active)
+# True
 
 # functions
+def greet(name):
+    return f"Hello, {name}!"
+
+
+message = greet("Alice")
+print(message)
 
 # classes
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def greet(self):
+        return f"Hello, I'm {self.name}."
+
+
+person = Person("Alice", 30)
+
+print(person.name)
+print(person.age)
+print(person.greet())
 
 # list
+fruits = ["apple", "banana", "orange"]
+
+print(fruits[0])
+
+fruits.append("mango")
+
+print(fruits)
 
 # tuple
+coordinates = (51.5074, -0.1278)
+
+print(coordinates[0])
+print(coordinates[1])
 
 # dictionary
+person = {
+    "name": "Alice",
+    "age": 30,
+    "is_active": True,
+}
+
+print(person["name"])
+print(person["age"])
 ```
+
+| Concept        | Example               | Main characteristic           |
+| -------------- | --------------------- | ----------------------------- |
+| **Variable**   | `name = "Alice"`      | Stores a value                |
+| **Function**   | `def greet():`        | Reusable block of logic       |
+| **Class**      | `class Person:`       | Blueprint for objects         |
+| **List**       | `["apple", "banana"]` | Ordered, mutable collection   |
+| **Tuple**      | `("apple", "banana")` | Ordered, immutable collection |
+| **Dictionary** | `{"name": "Alice"}`   | Key-value collection          |

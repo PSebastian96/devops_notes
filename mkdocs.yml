@@ -45,7 +45,8 @@ nav:
     - Basics:
       - Syntax: python/index.md
       - Datatypes: python/datatypes.md
-      - I/O & OS: python/io_os.md
+      - Functions: python/functions.md
+      - Classes: python/classes.md
       - Dunder: python/dunder.md
       - Async: python/async.md
     - Conditionals: python/conditionals.md
@@ -53,7 +54,6 @@ nav:
     - Cases: python/cases.md
     - Exceptions: python/exceptions.md
     - Libraries: python/libraries.md
-    - OOP: python/oop.md
 
 
   - Django:
