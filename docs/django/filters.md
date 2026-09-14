@@ -375,6 +375,89 @@ path("cars/", CarListView.as_view(), name="car_list")
 
 ---
 
+## Q() object
+
+### Overview
+
+- Q() helps build a condition, that can be passed to `.filter()`, `.exclude()`, etc.
+
+- Its job is to enable building complex database conditions.
+
+- Simple example:
+
+    * Normally:
+
+    ```python
+    Book.objects.filter(author=author)
+    ```
+
+    * With Q():
+
+    ```python
+    Book.objects.filter(
+        Q(title__icontains="django") |
+        Q(description__icontains="django")
+    )
+    ```
+
+> This means: Find books where the title OR description contains "django".
+
+---
+
+### Examples
+
+- Specific criteria
+
+```python
+from django.db.models import Q
+
+Book.objects.filter(
+    Q(author__name="George Orwell")
+)
+```
+
+> Means: Give me books where the author's name is George Orwell.
+
+---
+
+- NOT
+
+```python
+Book.objects.filter(
+    ~Q(status="archived")
+)
+```
+
+> Means:Give me books that are NOT archived.
+
+---
+
+- AND
+
+```python
+Book.objects.filter(
+    Q(status="published") &
+    Q(copies_available__gt=0)
+)
+```
+
+> Means:published AND has copies available.
+
+---
+
+- OR
+
+```python
+Book.objects.filter(
+    Q(author__name="George Orwell") |
+    Q(author__name="J.K. Rowling")
+)
+```
+
+> Means: George Orwell OR J.K. Rowling.
+
+---
+
 ## Best Practices
 
 ### When to Use Which Query Strategy

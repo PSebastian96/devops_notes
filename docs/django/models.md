@@ -98,6 +98,317 @@ Django model fields are defined using `models.FieldType()`.
 | `TimeField` | `models.TimeField()` | Time without a date |
 | `UUIDField` | `models.UUIDField()` | Universally unique identifier |
 
+---
+
+### Choice fields
+
+#### Overview
+
+- TextChoices:
+
+```python
+# orders/models.py
+from django.db import models
+
+class Order(models.Model):
+
+    class Status(models.TextChoices):
+        PENDING = "pending", "Pending"
+        PAID = "paid", "Paid"
+        SHIPPED = "shipped", "Shipped"
+        CANCELLED = "cancelled", "Cancelled"
+
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING
+    )
+
+    def __str__(self):
+        return self.get_status_display()
+```
+
+- IntegerChoices:
+
+```python
+class Task(models.Model):
+
+    class Priority(models.IntegerChoices):
+        LOW = 1, "Low"
+        MEDIUM = 2, "Medium"
+        HIGH = 3, "High"
+
+    priority = models.PositiveSmallIntegerField(
+        choices=Priority.choices,
+        default=Priority.LOW
+    )
+```
+
+---
+
+!!! danger "Important Rule"
+
+    Labels can be changed freely, stored values must NOT change without data migration.
+
+- Decision Table:
+
+| Change Type          | Safe? | Migration Required  |
+| -------------------- | ----- | ------------------- |
+| Change label         | ✅     | ❌                   |
+| Add new choice       | ✅     | ❌                   |
+| Remove choice        | ⚠️    | Only if data exists |
+| Rename value         | ❌     | ✅                   |
+| Change integer value | ❌     | ✅                   |
+
+- Initial model:
+
+```python
+class Order(models.Model):
+
+    class Status(models.TextChoices):
+        PENDING = "pending", "Pending"
+        PAID = "paid", "Paid"
+        SHIPPED = "shipped", "Shipped"
+
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING
+    )
+```
+
+- Safe change: Rename the LABEL ONLY:
+
+```python
+class Status(models.TextChoices):
+    PENDING = "pending", "Awaiting Payment"
+```
+
+- Result:
+
+    Database value: "pending" ✅ unchanged
+
+    UI label: "Awaiting Payment" ✅ updated
+
+    No migration required
+
+    This is always safe
+
+- Unsafe change:
+
+```python
+class Status(models.TextChoices):
+    PENDING = "awaiting", "Awaiting Payment"  # ❌
+```
+
+- What breaks:
+
+    Existing rows still contain "pending"
+
+    Django no longer recognizes them
+
+    Forms fail validation
+
+    Admin shows blank values
+
+    Data corruption
+
+#### How to change values safely
+
+- CORRECT WAY: Change Value with Data Migration
+
+Step 1: Add transitional Choice
+
+```python
+class Status(models.TextChoices):
+    PENDING = "pending", "Pending"
+    AWAITING = "awaiting", "Awaiting Payment"
+```
+
+Step 2: Data migration
+
+```bash
+python manage.py makemigrations --empty orders
+```
+
+```python
+# orders/migrations/000X_migrate_status.py
+from django.db import migrations
+
+def migrate_status(apps, schema_editor):
+    Order = apps.get_model("orders", "Order")
+
+    Order.objects.filter(status="pending").update(status="awaiting")
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ("orders", "000_previous"),
+    ]
+
+    operations = [
+        migrations.RunPython(migrate_status),
+    ]
+```
+
+Step 3: Remove Old Value
+
+```python
+class Status(models.TextChoices):
+    AWAITING = "awaiting", "Awaiting Payment"
+    PAID = "paid", "Paid"
+```
+
+Step 4: Deploy and Migrate
+
+```bash
+python manage.py migrate
+```
+
+!!! warning "IntegerChoices"
+
+    SAME RULE APPLY AS FOR INTEGERCHOICES
+
+    ```python 
+        class Priority(models.IntegerChoices):
+            LOW = 1, "Low"
+            MEDIUM = 2, "Medium"
+    ```
+
+    CHANGING 2 -> 3 WITHOUT MIGRATION LEADS TO BROKEN DATA
+
+- Special Case: Adding New Choice
+
+```python
+# **SAFE WITHOUT MIGRATION**
+
+class Status(models.TextChoices):
+    PENDING = "pending", "Pending"
+    PAID = "paid", "Paid"
+    REFUNDED = "refunded", "Refunded"
+```
+
+---
+
+### `on_delete`
+
+| Option        | What happens?                                             | Typical use                                                  |
+| ------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
+| `CASCADE`     | Delete the related object too                             | Child cannot exist without parent                            |
+| `PROTECT`     | Prevent deletion and raise an error                       | Related data must not be deleted                             |
+| `RESTRICT`    | Prevent deletion if restricted objects still reference it | Similar to `PROTECT`, but with different cascade interaction |
+| `SET_NULL`    | Set the relationship to `NULL`                            | Relationship becomes optional                                |
+| `SET_DEFAULT` | Replace relationship with the field's default             | You have a meaningful fallback object                        |
+| `SET(...)`    | Set a specific value/function result                      | Custom fallback behavior                                     |
+| `DO_NOTHING`  | Django does nothing                                       | Advanced/database-specific cases                             |
+
+### `CASCADE`
+
+- Delete the Author and its books.
+
+```python
+class Book(models.Model):
+    author = models.ForeignKey(
+        Author,
+        on_delete=models.CASCADE,
+    )
+```
+
+---
+
+### `PROTECT`
+
+- Author can not be deleted, while it has books in database. You would need to remove/reassign the protected relationships first.
+
+```python
+author = models.ForeignKey(
+    Author,
+    on_delete=models.PROTECT,
+)
+```
+
+---
+
+### `RESTRICT`
+
+```text
+Publisher
+   ↓ CASCADE
+Author
+   ↓ RESTRICT
+Book
+```
+
+- If deleting the `Publisher` would cascade-delete the `Author`, Django's `RESTRICT` can allow the deletion if the `Book` is also being deleted as part of that same cascade. `PROTECT` would still raise `ProtectedError`.
+
+```python
+author = models.ForeignKey(
+    Author,
+    on_delete=models.RESTRICT,
+)
+```
+
+>PROTECT — prevent deletion if related objects exist.
+
+>RESTRICT — prevent deletion if related objects still exist, but allow the deletion when those objects are being removed as part of the same cascading operation.
+
+`PROTECT` does not mean "delete all relational models first" automatically. It means Django refuses the deletion until those protected relationships are no longer present.
+
+---
+
+### `SET_NULL`
+
+- The book survives, but it no longer has an author.
+
+```python
+author = models.ForeignKey(
+    Author,
+    null=True,
+    on_delete=models.SET_NULL,
+)
+```
+
+---
+
+### `SET_DEFAULT`
+
+- If the author is deleted, Django changes the relationship to the default author.
+
+```python
+author = models.ForeignKey(
+    Author,
+    default=1,
+    on_delete=models.SET_DEFAULT,
+)
+```
+
+---
+
+### `SET()`
+
+- When the author is deleted, Django uses the result of get_default_author(). Useful when the fallback needs to be determined dynamically.
+
+```python
+author = models.ForeignKey(
+    Author,
+    on_delete=models.SET(get_default_author),
+)
+```
+
+---
+
+### `DO_NOTHING`
+
+- Django doesn't perform any deletion handling.
+
+```python
+author = models.ForeignKey(
+    Author,
+    on_delete=models.DO_NOTHING,
+)
+```
+
+---
 
 !!! tip "DateTime Fields"
 
@@ -108,10 +419,13 @@ Django model fields are defined using `models.FieldType()`.
     auto_now=True → on every save
     ```
 
+---
+
 !!! abstract "File & Media Fields"
 
     Requires `Pillow` package for ImageField.
 
+---
 
 !!! note "Integer Differences"
 
@@ -132,6 +446,8 @@ Django model fields are defined using `models.FieldType()`.
     | `SmallIntegerField`         | ~ -32,768 to 32,767          | Status codes, enums  |
     | `PositiveIntegerField`      | ≥ 0                          | Counters, quantities |
     | `PositiveSmallIntegerField` | ≥ 0 (small range)            | Flags, rankings      |
+
+---
 
 !!! info "Models & Migrations - Create Models and apply migrations"
 
