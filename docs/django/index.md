@@ -18,6 +18,8 @@
 
 - The ORM (Object–Relational Mapping) translates Python code into SQL queries and executes them on the database.
 
+---
+
 ## Components:
 
 ??? "Models"
@@ -92,6 +94,8 @@
 
     - Common examples: payment processing, email sending, report generation, domain rules enforcement.
 
+---
+
 ## How Django Handles a Request
 
 1. Browser sends HTTP request
@@ -101,12 +105,16 @@
 5. Template renders HTML
 6. Django returns HTTP response
 
+---
+
 #### - Django Concept Graph:
 
 ```mermaid
 flowchart LR
     Request --> URLconf --> View --> Model --> Template --> Response
 ```
+
+---
 
 #### - Django request/response lifecycle:
 
@@ -122,6 +130,9 @@ flowchart TD
     F -->|Rendered HTML| C
     C -->|HTTP Response| A
 ```
+
+---
+
 #### - Django request/response lifecycle including Middleware:
 
 ```mermaid
@@ -141,6 +152,9 @@ flowchart TD
     C --> B
     B --> A
 ```
+
+---
+
 #### - Django Architecture Overview:
 
 ```mermaid

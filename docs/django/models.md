@@ -699,11 +699,6 @@ class Product(models.Model):
 
 ---
 
-## Migrations
-
-
----
-
 ## Object manager
 
 - Used in `services.py`, `filters.py`, `selectors.py` .
@@ -744,6 +739,57 @@ class Product(models.Model):
 
 ## F() functions
 
----
+- `F()` lets Django perform calculations inside the database
 
-## Atomic transactions
+```python
+from django.db.models import F
+
+Product.objects.filter(id=product_id).update(
+    stock=F("stock") - 1
+)
+```
+
+- Main benefits:
+
+- Database performs the calculation.
+- Avoids unnecessary read → modify → write.
+- Helps prevent lost updates when multiple requests modify the same field concurrently.
+- Works well with counters, balances, quantities, etc.
+
+- F() with transactions:
+
+```python
+from django.db import transaction
+from django.db.models import F
+
+
+@transaction.atomic
+def purchase(product, quantity):
+
+    updated = (
+        Product.objects
+        .filter(
+            id=product.id,
+            stock__gte=quantity,
+        )
+        .update(
+            stock=F("stock") - quantity
+        )
+    )
+
+    if updated == 0:
+        raise ValueError("Insufficient stock")
+
+    order = Order.objects.create(
+        product=product,
+        quantity=quantity,
+    )
+
+    return order
+```
+
+- Transactions:
+
+Transaction enable database operations to complete or fail (if fails, revert to previous value), this way keeping the database in sync and avoiding incosistancies/discrepancies.
+
+A transaction helps ensure that database changes that must succeed together actually succeed together.
