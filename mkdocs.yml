@@ -54,6 +54,7 @@ nav:
     - Cases: python/cases.md
     - Exceptions: python/exceptions.md
     - Libraries: python/libraries.md
+    - Tips: python/tips.md
 
 
   - Django:
