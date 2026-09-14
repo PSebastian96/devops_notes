@@ -180,3 +180,33 @@ QuerySet = reusable application query vocabulary.
 FilterSet = flexible external/user filtering.
 
 Neither replaces the other; they compose together.
+
+---
+
+## QuerySet methods
+
+- Object manager methods apply.
+
+```python
+Book.objects.get(pk=1)
+```
+
+| Method               | What it does                                             | Common syntax / optional arguments                                                                                           | Returns                 |
+| -------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `get()`              | Retrieves exactly one object                             | `get(**kwargs)`                                                                                                              | Model instance          |
+| `create()`           | Creates and saves one object                             | `create(**kwargs)`                                                                                                           | Model instance          |
+| `get_or_create()`    | Gets an object, or creates it if missing                 | `get_or_create(defaults=None, **kwargs)`                                                                                     | `(object, created)`     |
+| `update_or_create()` | Updates an object, or creates it if missing              | `update_or_create(defaults=None, create_defaults=None, **kwargs)`                                                            | `(object, created)`     |
+| `bulk_create()`      | Creates many objects efficiently                         | `bulk_create(objs, batch_size=None, ignore_conflicts=False, update_conflicts=False, update_fields=None, unique_fields=None)` | List of objects         |
+| `count()`            | Counts matching records                                  | `count()`                                                                                                                    | `int`                   |
+| `in_bulk()`          | Retrieves objects by primary key or another unique field | `in_bulk(id_list=None, *, field_name="pk")`                                                                                  | `dict`                  |
+| `iterator()`         | Evaluates QuerySet while avoiding result caching         | `iterator(chunk_size=2000)`                                                                                                  | Iterator                |
+| `latest()`           | Gets latest object by field                              | `latest(*fields)`                                                                                                            | Model instance          |
+| `earliest()`         | Gets earliest object by field                            | `earliest(*fields)`                                                                                                          | Model instance          |
+| `first()`            | Gets first object                                        | `first()`                                                                                                                    | Model instance / `None` |
+| `last()`             | Gets last object                                         | `last()`                                                                                                                     | Model instance / `None` |
+| `aggregate()`        | Calculates aggregate values                              | `aggregate(*args, **kwargs)`                                                                                                 | `dict`                  |
+| `exists()`           | Checks whether any records exist                         | `exists()`                                                                                                                   | `bool`                  |
+| `update()`           | Updates matching rows directly in DB                     | `update(**kwargs)`                                                                                                           | Number of rows          |
+| `delete()`           | Deletes matching objects                                 | `delete()`                                                                                                                   | `(count, details)`      |
+| `as_manager()`       | Creates a model manager from a custom QuerySet           | `MyQuerySet.as_manager()`                                                                                                    | Manager                 |

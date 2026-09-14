@@ -109,6 +109,114 @@ brand = django_filters.MultipleChoiceFilter(
 
 ---
 
+## Field lookups
+
+```python
+# general syntax
+field__lookup=value
+
+# example
+Book.objects.filter(title__exact="Django")
+```
+
+| Lookup        | Meaning                      | Example                     |
+| ------------- | ---------------------------- | --------------------------- |
+| `exact`       | Exact match                  | `title__exact="Django"`     |
+| `iexact`      | Case-insensitive exact match | `title__iexact="django"`    |
+| `contains`    | Contains substring           | `title__contains="Django"`  |
+| `icontains`   | Case-insensitive contains    | `title__icontains="django"` |
+| `in`          | Matches values in iterable   | `id__in=[1, 2, 3]`          |
+| `gt`          | Greater than                 | `price__gt=20`              |
+| `gte`         | Greater than or equal        | `price__gte=20`             |
+| `lt`          | Less than                    | `price__lt=20`              |
+| `lte`         | Less than or equal           | `price__lte=20`             |
+| `startswith`  | Starts with                  | `title__startswith="Djan"`  |
+| `istartswith` | Case-insensitive starts with | `title__istartswith="djan"` |
+| `endswith`    | Ends with                    | `title__endswith="Guide"`   |
+| `iendswith`   | Case-insensitive ends with   | `title__iendswith="guide"`  |
+| `range`       | Between two values           | `price__range=(10, 50)`     |
+| `date`        | Matches date portion         | `created_at__date=date`     |
+| `year`        | Matches year                 | `created_at__year=2026`     |
+| `month`       | Matches month                | `created_at__month=9`       |
+| `day`         | Matches day                  | `created_at__day=14`        |
+| `week`        | Matches ISO week             | `created_at__week=38`       |
+| `week_day`    | Matches day of week          | `created_at__week_day=2`    |
+| `quarter`     | Matches quarter              | `created_at__quarter=3`     |
+| `time`        | Matches time portion         | `created_at__time=time`     |
+| `hour`        | Matches hour                 | `created_at__hour=15`       |
+| `minute`      | Matches minute               | `created_at__minute=30`     |
+| `second`      | Matches second               | `created_at__second=0`      |
+| `isnull`      | Checks for `NULL`            | `author__isnull=True`       |
+| `regex`       | Regular expression match     | `title__regex=r"^Django"`   |
+| `iregex`      | Case-insensitive regex       | `title__iregex=r"^django"`  |
+
+---
+
+## Aggregation functions
+
+| Function   | Purpose                           | Example             |
+| ---------- | --------------------------------- | ------------------- |
+| `Avg`      | Average value                     | `Avg("price")`      |
+| `Count`    | Number of objects/related objects | `Count("books")`    |
+| `Max`      | Maximum value                     | `Max("price")`      |
+| `Min`      | Minimum value                     | `Min("price")`      |
+| `StdDev`   | Standard deviation                | `StdDev("price")`   |
+| `Sum`      | Sum of values                     | `Sum("price")`      |
+| `Variance` | Variance of values                | `Variance("price")` |
+
+```python
+from django.db.models import Avg, Count, Max, Min, Sum
+
+Book.objects.aggregate(
+    average_price=Avg("price"),
+    total_books=Count("id"),
+    highest_price=Max("price"),
+    lowest_price=Min("price"),
+    total_value=Sum("price"),
+)
+```
+
+---
+
+## Mental model
+
+```text
+Django ORM
+│
+├── QuerySet methods
+│   │
+│   ├── Build/refine queries
+│   │   └── filter(), exclude(), order_by()...
+│   │
+│   └── Execute / return something else
+│       ├── get()
+│       ├── count()
+│       ├── exists()
+│       ├── first()
+│       ├── aggregate()
+│       ├── update()
+│       └── delete()
+│
+├── Field lookups
+│   └── Define conditions
+│       ├── __exact
+│       ├── __icontains
+│       ├── __gte
+│       ├── __in
+│       └── __isnull
+│
+└── Aggregations
+    ├── Avg
+    ├── Count
+    ├── Max
+    ├── Min
+    ├── Sum
+    ├── StdDev
+    └── Variance
+```
+
+---
+
 ## Template
 
 ### Summary Table
