@@ -65,6 +65,7 @@ nav:
     - Config: django/settings.md
     - Environment: django/environ.md
     - Models: django/models.md
+    - Authentication: django/auth.md
     - Migrations: django/migrations.md
     - Forms: django/forms.md
     - QuerySet: django/queryset.md
