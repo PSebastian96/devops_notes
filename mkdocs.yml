@@ -47,6 +47,7 @@ nav:
       - Datatypes: python/datatypes.md
       - Functions: python/functions.md
       - Classes: python/classes.md
+      - Annotations: python/annotations.md
       - Dunder: python/dunder.md
       - Async: python/async.md
     - Conditionals: python/conditionals.md
