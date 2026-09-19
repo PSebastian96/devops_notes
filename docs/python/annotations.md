@@ -98,6 +98,98 @@ class User:
 
 ---
 
+```python
+# Variable
+name: str = "Alice"
+
+# Optional
+name: str | None = None
+
+# List
+numbers: list[int] = [1, 2, 3]
+
+# Dictionary
+scores: dict[str, int] = {"Alice": 100}
+
+# Set
+tags: set[str] = {"python", "coding"}
+
+# Tuple
+point: tuple[int, int] = (10, 20)
+
+# Function
+def add(a: int, b: int) -> int:
+    return a + b
+
+# No return value
+def log(message: str) -> None:
+    print(message)
+
+# Conditional
+if age >= 18:
+    ...
+
+# Ternary
+status = "adult" if age >= 18 else "minor"
+
+# Loop
+for item in items:
+    ...
+
+# Loop + index
+for index, item in enumerate(items):
+    ...
+
+# Multiple collections
+for name, age in zip(names, ages):
+    ...
+
+# List comprehension
+squares = [x ** 2 for x in numbers]
+
+# Exception handling
+try:
+    ...
+except ValueError:
+    ...
+
+# Pattern matching
+match command:
+    case "start":
+        ...
+    case "stop":
+        ...
+    case _:
+        ...
+
+# Class
+class User:
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+# Dataclass
+@dataclass
+class User:
+    name: str
+    age: int
+
+# None check
+if value is None:
+    ...
+
+# Type narrowing
+if isinstance(value, str):
+    ...
+
+# Any
+value: Any
+
+# Unknown but type-safe
+value: object
+```
+
+---
+
 - Syntax:
 
 ```bash
