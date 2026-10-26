@@ -677,23 +677,23 @@ def create_order(customer, amount):
 
 ### Execution flow
 
-1. Start database transaction
+* 1.Start database transaction
 
 `transaction.atomic()`
 
-2. Create and save the order
+* 2.Create and save the order
 
 The data is not committed yet.
 
-3. Commit the transaction
+* 3.Commit the transaction
 
 Django successfully commits the database changes.
 
-4. Enqueue the Celery task
+* 4.Enqueue the Celery task
 
 `process_order.delay(order.pk)`
 
-5. Worker processes the order
+* 5.Worker processes the order
 
 The committed order is available to query.
 
@@ -817,11 +817,90 @@ For critical workflows, such as payments, fulfilment, or financial operations, c
 
 > Use `delay_on_commit()` for normal tasks, pass primary keys, and use a transactional outbox when losing a task after a successful database commit would be unacceptable.
 
+```python
+# payments/tasks.py
+
+from celery import shared_task
+
+from payments.models import Payment
+
+
+@shared_task
+def process_payment(payment_id):
+    payment = Payment.objects.get(pk=payment_id)
+
+    if payment.completed:
+        return
+
+    # Illustrative API call:
+    # The provider must support idempotency keys.
+    result = payment_provider.charge(
+        payment_id=payment.pk,
+        idempotency_key=payment.reference,
+    )
+
+    if result.success:
+        payment.completed = True
+        payment.save(update_fields=["completed"])
+```
+
 ---
 
 ### Celery commands
 
+#### 1.Local Celery development commands
+
+| Purpose                           | Command                                                   |
+| --------------------------------- | --------------------------------------------------------- |
+| Start a Celery worker             | `celery -A config worker --loglevel=INFO`                 |
+| Start a worker with one process   | `celery -A config worker --loglevel=INFO --concurrency=1` |
+| Start a worker with debug logging | `celery -A config worker --loglevel=DEBUG`                |
+| List registered tasks             | `celery -A config inspect registered`                     |
+| Check worker connectivity         | `celery -A config inspect ping`                           |
+| List active tasks                 | `celery -A config inspect active`                         |
+| List reserved tasks               | `celery -A config inspect reserved`                       |
+| List scheduled tasks              | `celery -A config inspect scheduled`                      |
+| Show worker statistics            | `celery -A config inspect stats`                          |
+
+> Replace `config` with Django project name.
 
 ---
 
-### task examples
+#### 2.Production deployment commands
+
+| Step                                       | Command                                                                         |
+| ------------------------------------------ | ------------------------------------------------------------------------------- |
+| Activate virtual environment (Linux/macOS) | `source .venv/bin/activate`                                                     |
+| Install dependencies                       | `pip install -r requirements.txt`                                               |
+| Validate production settings               | `python manage.py check --deploy`                                               |
+| Apply database migrations                  | `python manage.py migrate --noinput`                                            |
+| Collect static files                       | `python manage.py collectstatic --noinput`                                      |
+| Start production worker                    | `celery -A config worker --loglevel=INFO --concurrency=4 --hostname=worker1@%h` |
+| Verify workers respond                     | `celery -A config inspect ping`                                                 |
+| Verify task registration                   | `celery -A config inspect registered`                                           |
+
+Production note: Run Celery workers under a process supervisor or container orchestrator, such as systemd, Supervisor, or Kubernetes, so they restart automatically and their logs can be managed.
+
+---
+
+### Conventional Workflow
+
+```
+# 1. Run Django tests
+python manage.py test
+
+# 2. Start your broker (e.g. Redis) separately
+
+# 3. Start the Celery worker in another terminal
+celery -A config worker --loglevel=INFO --concurrency=1
+
+# 4. Verify worker connectivity
+celery -A config inspect ping
+
+# 5. Before deployment
+python manage.py check --deploy
+python manage.py migrate --noinput
+python manage.py collectstatic --noinput
+```
+
+---
