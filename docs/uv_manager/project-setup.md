@@ -37,12 +37,6 @@ pyproject.toml
 
 ## Initialize a Project
 
-Create a virtual environment:
-
-```bash
-uv venv
-```
-
 Create a new project:
 
 ```bash
@@ -53,6 +47,12 @@ Enter the project:
 
 ```bash
 cd my-project
+```
+
+Create a virtual environment:
+
+```bash
+uv venv
 ```
 
 The project will contain files such as:
