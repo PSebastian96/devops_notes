@@ -76,6 +76,7 @@ nav:
     - Views: django/views.md
     - Urls: django/urls.md
     - Admin: django/admin.md
+    - Groups & Perms: django/group_perms.md
     - Celery/Tasks:  django/celery.md
     - Celery beat: django/celery_beat.md
     - Redis: django/redis.md
